@@ -1,0 +1,5 @@
+Das ist die erste Zeile eines geheimen Textes
+Eine zweite Zeile zum Verschlüsseln
+Dritte Zeile mit sensiblen Informationen
+Vierte Zeile: Alle Zeilen werden verschlüsselt
+Fünfte Zeile zum Demonstrieren der Batch-Verarbeitung

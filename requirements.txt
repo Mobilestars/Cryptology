@@ -1,0 +1,13 @@
+# Python Dependencies für Vigenere Cipher
+# Alle Module sind in Python Standard Library enthalten - keine externen Abhängigkeiten nötig!
+
+# Standard Library Modules verwendet:
+# - unittest: for testing
+# - collections: for Counter
+# - math: for gcd
+# - functools: for reduce
+# - sys: for CLI
+
+# Installation nicht nötig - nur Python 3.7+ erforderlich!
+# Für Tests mit pytest (optional):
+# pytest>=6.0
