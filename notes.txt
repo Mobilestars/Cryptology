@@ -1,0 +1,2 @@
+1. Resortierung der Wörter/Satzzeichen
+2. Seed(Date)

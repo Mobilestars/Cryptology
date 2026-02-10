@@ -1,3 +1,3 @@
 @echo off
-python cli.py
+python src\cli.py
 pause
