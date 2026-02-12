@@ -17,7 +17,7 @@ ALPHABET = string.ascii_lowercase
 
 def print_banner():
     print("\n" + "=" * 60)
-    print("  VIGENERE CIPHER - Verschlüsselungsmittel mit Fake-Zeichen")
+    print("  JikCrypt - VIGENERE; Transposition; Chaff")
     print("=" * 60 + "\n")
 
 
@@ -25,7 +25,7 @@ def print_menu():
     print("\nWählen Sie eine Option:")
     print("1. Text verschlüsseln")
     print("2. Text entschlüsseln")
-    print("3. Batch-Datei verarbeiten")
+    print("3. TXT-Datei verarbeiten")
     print("4. Informationen anzeigen")
     print("5. Programmende")
     print("-" * 40)
@@ -53,38 +53,70 @@ def permute_text(text: str, code: str) -> str:
     block_size = max(code_indices) + 1
 
     result = []
-
     for i in range(0, len(text), block_size):
         block = list(text[i:i + block_size])
         for idx in code_indices:
             if idx < len(block):
                 result.append(block[idx])
-
     return ''.join(result)
 
 
 def inverse_permute_text(text: str, code: str) -> str:
+    """
+    Inverse der oben definierten permute_text-Funktion.
+    Vorgehen:
+      - Für alle *vollen* Originalblöcke (Länge = block_size) ist die produzierte
+        Länge konstant (equal to number of indices in code_indices that < block_size,
+        typischerweise len(code_indices) wenn alle idx < block_size).
+      - Verarbeite so viele volle Blöcke wie möglich.
+      - Bestimme für den letzten (kürzeren) Block die Original-Länge durch
+        Probieren: suche b in 1..block_size mit produced(b) == verbleibende Zeichen.
+    """
     code_indices = [int(c) - 1 for c in code]
     block_size = max(code_indices) + 1
 
+    produced_full = sum(1 for idx in code_indices if idx < block_size)
+
     result = []
     i = 0
+    n = len(text)
 
-    while i < len(text):
-        block_len = min(block_size, len(text) - i)
-        produced = sum(1 for idx in code_indices if idx < block_len)
-
-        block = text[i:i + produced]
-        original = [''] * block_len
-
-        pos = 0
-        for idx in code_indices:
-            if idx < block_len and pos < len(block):
-                original[idx] = block[pos]
-                pos += 1
-
+    while n - i >= produced_full and produced_full > 0:
+        block = text[i:i + produced_full]
+        original = [''] * block_size
+        positions = [idx for idx in code_indices if idx < block_size]
+        for pos, idx in enumerate(positions):
+            original[idx] = block[pos]
         result.extend(original)
-        i += produced
+        i += produced_full
+
+    remaining = n - i
+    if remaining > 0:
+        found = False
+        for b in range(1, block_size + 1):
+            produced_b = sum(1 for idx in code_indices if idx < b)
+            if produced_b == remaining:
+                block = text[i:i + produced_b]
+                original = [''] * b
+                positions = [idx for idx in code_indices if idx < b]
+                for pos, idx in enumerate(positions):
+                    original[idx] = block[pos]
+                result.extend(original)
+                i += produced_b
+                found = True
+                break
+        if not found:
+            b = min(block_size, remaining)
+            block = text[i:i + remaining]
+            original = [''] * b
+            positions = [idx for idx in code_indices if idx < b]
+            pos = 0
+            for idx in positions:
+                if pos < len(block) and idx < b:
+                    original[idx] = block[pos]
+                    pos += 1
+            result.extend(original)
+            i = n
 
     return ''.join(result)
 
@@ -119,7 +151,7 @@ def get_vigenere_key() -> str:
 
 
 def get_code() -> str:
-    code = input("Geben Sie den Code ein (Zahlenfolge, Pflichtfeld): ").strip()
+    code = input("Geben Sie den Code ein (1-n, min. 1x.): ").strip()
     if not code or not validate_code(code):
         print("Ungültiger Code! Er muss alle Zahlen von 1 bis zur größten Ziffer mindestens einmal enthalten.")
         return get_code()
@@ -185,11 +217,11 @@ def decrypt_mode():
 
 
 # -------------------------------------------------
-# Batch-Modus
+# TXT-Modus
 # -------------------------------------------------
 
-def batch_mode():
-    print("\n--- BATCH-MODUS ---")
+def txt_mode():
+    print("\n--- TXT-MODUS ---")
 
     key = get_vigenere_key()
     cipher = VigenereCipher(key)
@@ -258,7 +290,7 @@ def main():
         elif choice == "2":
             decrypt_mode()
         elif choice == "3":
-            batch_mode()
+            txt_mode()
         elif choice == "4":
             show_info()
         elif choice == "5":
