@@ -1,2 +1,14 @@
 1. Resortierung der Wörter/Satzzeichen Zahen (1-n)mehrfach drinne vorkommbar
 2. Seed(Date)
+3. Fix von zu langen Wörtern(nicht passend zum code)
+
+Result:
+1. Vigenere Verschlüsselung
+- Klassische Vigenereverschlüsselung
+2. Transposition
+- Es werden per key die buchstaben verschoben
+- keine leerzeichen
+- key muss alle Zahlen von 1-n min. 1x beinhalten
+- max. n: 9
+2.1 Bessere Transposition
+- Code darf öfters die selbe Zahl beinhalten, dami sih die Wortlänge verändert.

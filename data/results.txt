@@ -1,0 +1,1505 @@
+Score: 315
+Key:   px
+Code:  12
+Text:  ssdwg
+
+Score: 312
+Key:   bs
+Code:  21
+Text:  opsa
+
+Score: 273
+Key:   bp
+Code:  12
+Text:  gareu
+
+Score: 252
+Key:   hp
+Code:  12
+Text:  aaleo
+
+Score: 252
+Key:   sh
+Code:  12
+Text:  piamd
+
+Score: 234
+Key:   bp
+Code:  21
+Text:  ossd
+
+Score: 234
+Key:   gh
+Code:  21
+Text:  janl
+
+Score: 234
+Key:   ih
+Code:  21
+Text:  hall
+
+Score: 234
+Key:   lk
+Code:  21
+Text:  exii
+
+Score: 234
+Key:   lv
+Code:  21
+Text:  emix
+
+Score: 231
+Key:   a
+Code:  12
+Text:  hpstv
+
+Score: 231
+Key:   aa
+Code:  12
+Text:  hpstv
+
+Score: 231
+Key:   kh
+Code:  12
+Text:  xiiml
+
+Score: 231
+Key:   wf
+Code:  12
+Text:  lkwoz
+
+Score: 208
+Key:   lq
+Code:  21
+Text:  eric
+
+Score: 208
+Key:   pe
+Code:  21
+Text:  adeo
+
+Score: 189
+Key:   l
+Code:  12
+Text:  wehik
+
+Score: 189
+Key:   p
+Code:  12
+Text:  sadeg
+
+Score: 189
+Key:   ab
+Code:  12
+Text:  hossv
+
+Score: 189
+Key:   az
+Code:  12
+Text:  hqsuv
+
+Score: 189
+Key:   bo
+Code:  12
+Text:  gbrfu
+
+Score: 189
+Key:   db
+Code:  12
+Text:  eopss
+
+Score: 189
+Key:   df
+Code:  12
+Text:  ekpos
+
+Score: 189
+Key:   gy
+Code:  12
+Text:  brmvp
+
+Score: 189
+Key:   ll
+Code:  12
+Text:  wehik
+
+Score: 189
+Key:   mp
+Code:  12
+Text:  vagej
+
+Score: 189
+Key:   pp
+Code:  12
+Text:  sadeg
+
+Score: 189
+Key:   sc
+Code:  12
+Text:  pnard
+
+Score: 189
+Key:   sm
+Code:  12
+Text:  pdahd
+
+Score: 189
+Key:   vh
+Code:  12
+Text:  mixma
+
+Score: 189
+Key:   vp
+Code:  12
+Text:  maxea
+
+Score: 189
+Key:   yp
+Code:  12
+Text:  jauex
+
+Score: 182
+Key:   x
+Code:  21
+Text:  skwv
+
+Score: 182
+Key:   ap
+Code:  21
+Text:  pstd
+
+Score: 182
+Key:   az
+Code:  21
+Text:  pitt
+
+Score: 182
+Key:   ea
+Code:  21
+Text:  lhps
+
+Score: 182
+Key:   fb
+Code:  21
+Text:  kgor
+
+Score: 182
+Key:   ha
+Code:  21
+Text:  ihms
+
+Score: 182
+Key:   hp
+Code:  21
+Text:  ismd
+
+Score: 182
+Key:   it
+Code:  21
+Text:  holz
+
+Score: 182
+Key:   jw
+Code:  21
+Text:  glkw
+
+Score: 182
+Key:   lm
+Code:  21
+Text:  evig
+
+Score: 182
+Key:   ls
+Code:  21
+Text:  epia
+
+Score: 182
+Key:   oq
+Code:  21
+Text:  brfc
+
+Score: 182
+Key:   pl
+Code:  21
+Text:  aweh
+
+Score: 182
+Key:   sb
+Code:  21
+Text:  xgbr
+
+Score: 182
+Key:   tb
+Code:  21
+Text:  wgar
+
+Score: 182
+Key:   tv
+Code:  21
+Text:  wmax
+
+Score: 182
+Key:   wd
+Code:  21
+Text:  texp
+
+Score: 182
+Key:   wk
+Code:  21
+Text:  txxi
+
+Score: 182
+Key:   xe
+Code:  21
+Text:  sdwo
+
+Score: 182
+Key:   xx
+Code:  21
+Text:  skwv
+
+Score: 182
+Key:   yd
+Code:  21
+Text:  revp
+
+Score: 182
+Key:   yk
+Code:  21
+Text:  rxvi
+
+Score: 168
+Key:   al
+Code:  12
+Text:  hesiv
+
+Score: 168
+Key:   dh
+Code:  12
+Text:  eipms
+
+Score: 168
+Key:   gi
+Code:  12
+Text:  bhmlp
+
+Score: 168
+Key:   oa
+Code:  12
+Text:  tpeth
+
+Score: 168
+Key:   ph
+Code:  12
+Text:  sidmg
+
+Score: 168
+Key:   yl
+Code:  12
+Text:  jeuix
+
+Score: 168
+Key:   zj
+Code:  12
+Text:  igtkw
+
+Score: 156
+Key:   an
+Code:  21
+Text:  putf
+
+Score: 156
+Key:   bx
+Code:  21
+Text:  oksv
+
+Score: 156
+Key:   fl
+Code:  21
+Text:  kwoh
+
+Score: 156
+Key:   he
+Code:  21
+Text:  idmo
+
+Score: 156
+Key:   hr
+Code:  21
+Text:  iqmb
+
+Score: 156
+Key:   hs
+Code:  21
+Text:  ipma
+
+Score: 156
+Key:   hu
+Code:  21
+Text:  inmy
+
+Score: 156
+Key:   hz
+Code:  21
+Text:  iimt
+
+Score: 156
+Key:   jt
+Code:  21
+Text:  gokz
+
+Score: 156
+Key:   lp
+Code:  21
+Text:  esid
+
+Score: 156
+Key:   lz
+Code:  21
+Text:  eiit
+
+Score: 156
+Key:   mg
+Code:  21
+Text:  dbhm
+
+Score: 156
+Key:   pa
+Code:  21
+Text:  ahes
+
+Score: 156
+Key:   pq
+Code:  21
+Text:  arec
+
+Score: 156
+Key:   tf
+Code:  21
+Text:  wcan
+
+Score: 156
+Key:   xm
+Code:  21
+Text:  svwg
+
+Score: 147
+Key:   b
+Code:  12
+Text:  gorsu
+
+Score: 147
+Key:   bb
+Code:  12
+Text:  gorsu
+
+Score: 147
+Key:   de
+Code:  12
+Text:  elpps
+
+Score: 147
+Key:   dy
+Code:  12
+Text:  erpvs
+
+Score: 147
+Key:   em
+Code:  12
+Text:  ddohr
+
+Score: 147
+Key:   fc
+Code:  12
+Text:  cnnrq
+
+Score: 147
+Key:   gm
+Code:  12
+Text:  bdmhp
+
+Score: 147
+Key:   gt
+Code:  12
+Text:  bwmap
+
+Score: 147
+Key:   he
+Code:  12
+Text:  allpo
+
+Score: 147
+Key:   ix
+Code:  12
+Text:  zskwn
+
+Score: 147
+Key:   ke
+Code:  12
+Text:  xlipl
+
+Score: 147
+Key:   ks
+Code:  12
+Text:  xxibl
+
+Score: 147
+Key:   ku
+Code:  12
+Text:  xvizl
+
+Score: 147
+Key:   lt
+Code:  12
+Text:  wwhak
+
+Score: 147
+Key:   nj
+Code:  12
+Text:  ugfki
+
+Score: 147
+Key:   pd
+Code:  12
+Text:  smdqg
+
+Score: 147
+Key:   pk
+Code:  12
+Text:  sfdjg
+
+Score: 147
+Key:   qm
+Code:  12
+Text:  rdchf
+
+Score: 147
+Key:   sg
+Code:  12
+Text:  pjand
+
+Score: 147
+Key:   sx
+Code:  12
+Text:  psawd
+
+Score: 147
+Key:   zm
+Code:  12
+Text:  idthw
+
+Score: 130
+Key:   b
+Code:  21
+Text:  ogsr
+
+Score: 130
+Key:   aq
+Code:  21
+Text:  prtc
+
+Score: 130
+Key:   at
+Code:  21
+Text:  potz
+
+Score: 130
+Key:   bb
+Code:  21
+Text:  ogsr
+
+Score: 130
+Key:   bn
+Code:  21
+Text:  ousf
+
+Score: 130
+Key:   bz
+Code:  21
+Text:  oist
+
+Score: 130
+Key:   cd
+Code:  21
+Text:  nerp
+
+Score: 130
+Key:   ce
+Code:  21
+Text:  ndro
+
+Score: 130
+Key:   cn
+Code:  21
+Text:  nurf
+
+Score: 130
+Key:   fz
+Code:  21
+Text:  kiot
+
+Score: 130
+Key:   gf
+Code:  21
+Text:  jcnn
+
+Score: 130
+Key:   hg
+Code:  21
+Text:  ibmm
+
+Score: 130
+Key:   hw
+Code:  21
+Text:  ilmw
+
+Score: 130
+Key:   ik
+Code:  21
+Text:  hxli
+
+Score: 130
+Key:   in
+Code:  21
+Text:  hulf
+
+Score: 130
+Key:   ke
+Code:  21
+Text:  fdjo
+
+Score: 130
+Key:   nx
+Code:  21
+Text:  ckgv
+
+Score: 130
+Key:   oa
+Code:  21
+Text:  bhfs
+
+Score: 130
+Key:   on
+Code:  21
+Text:  buff
+
+Score: 130
+Key:   pn
+Code:  21
+Text:  auef
+
+Score: 130
+Key:   po
+Code:  21
+Text:  atee
+
+Score: 130
+Key:   qg
+Code:  21
+Text:  zbdm
+
+Score: 130
+Key:   qs
+Code:  21
+Text:  zpda
+
+Score: 130
+Key:   tc
+Code:  21
+Text:  wfaq
+
+Score: 130
+Key:   th
+Code:  21
+Text:  waal
+
+Score: 130
+Key:   ti
+Code:  21
+Text:  wzak
+
+Score: 130
+Key:   tm
+Code:  21
+Text:  wvag
+
+Score: 130
+Key:   ze
+Code:  21
+Text:  qduo
+
+Score: 130
+Key:   zo
+Code:  21
+Text:  qtue
+
+Score: 130
+Key:   zp
+Code:  21
+Text:  qsud
+
+Score: 126
+Key:   x
+Code:  12
+Text:  ksvwy
+
+Score: 126
+Key:   ah
+Code:  12
+Text:  hismv
+
+Score: 126
+Key:   ap
+Code:  12
+Text:  hasev
+
+Score: 126
+Key:   ch
+Code:  12
+Text:  fiqmt
+
+Score: 126
+Key:   ci
+Code:  12
+Text:  fhqlt
+
+Score: 126
+Key:   ed
+Code:  12
+Text:  dmoqr
+
+Score: 126
+Key:   en
+Code:  12
+Text:  dcogr
+
+Score: 126
+Key:   ga
+Code:  12
+Text:  bpmtp
+
+Score: 126
+Key:   gf
+Code:  12
+Text:  bkmop
+
+Score: 126
+Key:   gh
+Code:  12
+Text:  bimmp
+
+Score: 126
+Key:   gl
+Code:  12
+Text:  bemip
+
+Score: 126
+Key:   hj
+Code:  12
+Text:  aglko
+
+Score: 126
+Key:   ie
+Code:  12
+Text:  zlkpn
+
+Score: 126
+Key:   ip
+Code:  12
+Text:  zaken
+
+Score: 126
+Key:   ka
+Code:  12
+Text:  xpitl
+
+Score: 126
+Key:   ki
+Code:  12
+Text:  xhill
+
+Score: 126
+Key:   lb
+Code:  12
+Text:  wohsk
+
+Score: 126
+Key:   li
+Code:  12
+Text:  whhlk
+
+Score: 126
+Key:   mj
+Code:  12
+Text:  vggkj
+
+Score: 126
+Key:   nh
+Code:  12
+Text:  uifmi
+
+Score: 126
+Key:   pn
+Code:  12
+Text:  scdgg
+
+Score: 126
+Key:   pt
+Code:  12
+Text:  swdag
+
+Score: 126
+Key:   rm
+Code:  12
+Text:  qdbhe
+
+Score: 126
+Key:   sn
+Code:  12
+Text:  pcagd
+
+Score: 126
+Key:   tx
+Code:  12
+Text:  oszwc
+
+Score: 126
+Key:   vb
+Code:  12
+Text:  moxsa
+
+Score: 126
+Key:   ve
+Code:  12
+Text:  mlxpa
+
+Score: 126
+Key:   xh
+Code:  12
+Text:  kivmy
+
+Score: 126
+Key:   xw
+Code:  12
+Text:  ktvxy
+
+Score: 126
+Key:   xx
+Code:  12
+Text:  ksvwy
+
+Score: 126
+Key:   zh
+Code:  12
+Text:  iitmw
+
+Score: 105
+Key:   h
+Code:  12
+Text:  ailmo
+
+Score: 105
+Key:   bt
+Code:  12
+Text:  gwrau
+
+Score: 105
+Key:   cp
+Code:  12
+Text:  faqet
+
+Score: 105
+Key:   dr
+Code:  12
+Text:  eypcs
+
+Score: 105
+Key:   du
+Code:  12
+Text:  evpzs
+
+Score: 105
+Key:   ea
+Code:  12
+Text:  dpotr
+
+Score: 105
+Key:   ev
+Code:  12
+Text:  duoyr
+
+Score: 105
+Key:   hb
+Code:  12
+Text:  aolso
+
+Score: 105
+Key:   hh
+Code:  12
+Text:  ailmo
+
+Score: 105
+Key:   iu
+Code:  12
+Text:  zvkzn
+
+Score: 105
+Key:   jl
+Code:  12
+Text:  yejim
+
+Score: 105
+Key:   lh
+Code:  12
+Text:  wihmk
+
+Score: 105
+Key:   lo
+Code:  12
+Text:  wbhfk
+
+Score: 105
+Key:   mb
+Code:  12
+Text:  vogsj
+
+Score: 105
+Key:   ne
+Code:  12
+Text:  ulfpi
+
+Score: 105
+Key:   nk
+Code:  12
+Text:  uffji
+
+Score: 105
+Key:   nw
+Code:  12
+Text:  utfxi
+
+Score: 105
+Key:   nx
+Code:  12
+Text:  usfwi
+
+Score: 105
+Key:   ol
+Code:  12
+Text:  teeih
+
+Score: 105
+Key:   ov
+Code:  12
+Text:  tueyh
+
+Score: 105
+Key:   ow
+Code:  12
+Text:  ttexh
+
+Score: 105
+Key:   pc
+Code:  12
+Text:  sndrg
+
+Score: 105
+Key:   pl
+Code:  12
+Text:  sedig
+
+Score: 105
+Key:   po
+Code:  12
+Text:  sbdfg
+
+Score: 105
+Key:   pv
+Code:  12
+Text:  sudyg
+
+Score: 105
+Key:   pw
+Code:  12
+Text:  stdxg
+
+Score: 105
+Key:   qk
+Code:  12
+Text:  rfcjf
+
+Score: 105
+Key:   rb
+Code:  12
+Text:  qobse
+
+Score: 105
+Key:   rh
+Code:  12
+Text:  qibme
+
+Score: 105
+Key:   rn
+Code:  12
+Text:  qcbge
+
+Score: 105
+Key:   sy
+Code:  12
+Text:  pravd
+
+Score: 105
+Key:   wp
+Code:  12
+Text:  lawez
+
+Score: 105
+Key:   xj
+Code:  12
+Text:  kgvky
+
+Score: 105
+Key:   xl
+Code:  12
+Text:  keviy
+
+Score: 105
+Key:   yc
+Code:  12
+Text:  jnurx
+
+Score: 105
+Key:   za
+Code:  12
+Text:  ipttw
+
+Score: 105
+Key:   zb
+Code:  12
+Text:  iotsw
+
+Score: 105
+Key:   zw
+Code:  12
+Text:  ittxw
+
+Score: 105
+Key:   zx
+Code:  12
+Text:  istww
+
+Score: 104
+Key:   h
+Code:  21
+Text:  iaml
+
+Score: 104
+Key:   i
+Code:  21
+Text:  hzlk
+
+Score: 104
+Key:   v
+Code:  21
+Text:  umyx
+
+Score: 104
+Key:   ah
+Code:  21
+Text:  patl
+
+Score: 104
+Key:   au
+Code:  21
+Text:  pnty
+
+Score: 104
+Key:   av
+Code:  21
+Text:  pmtx
+
+Score: 104
+Key:   ax
+Code:  21
+Text:  pktv
+
+Score: 104
+Key:   ba
+Code:  21
+Text:  ohss
+
+Score: 104
+Key:   bg
+Code:  21
+Text:  obsm
+
+Score: 104
+Key:   bi
+Code:  21
+Text:  ozsk
+
+Score: 104
+Key:   bk
+Code:  21
+Text:  oxsi
+
+Score: 104
+Key:   bt
+Code:  21
+Text:  oosz
+
+Score: 104
+Key:   ch
+Code:  21
+Text:  narl
+
+Score: 104
+Key:   co
+Code:  21
+Text:  ntre
+
+Score: 104
+Key:   cr
+Code:  21
+Text:  nqrb
+
+Score: 104
+Key:   cu
+Code:  21
+Text:  nnry
+
+Score: 104
+Key:   cv
+Code:  21
+Text:  nmrx
+
+Score: 104
+Key:   db
+Code:  21
+Text:  mgqr
+
+Score: 104
+Key:   dg
+Code:  21
+Text:  mbqm
+
+Score: 104
+Key:   ds
+Code:  21
+Text:  mpqa
+
+Score: 104
+Key:   dz
+Code:  21
+Text:  miqt
+
+Score: 104
+Key:   eb
+Code:  21
+Text:  lgpr
+
+Score: 104
+Key:   eg
+Code:  21
+Text:  lbpm
+
+Score: 104
+Key:   ek
+Code:  21
+Text:  lxpi
+
+Score: 104
+Key:   es
+Code:  21
+Text:  lppa
+
+Score: 104
+Key:   ex
+Code:  21
+Text:  lkpv
+
+Score: 104
+Key:   fi
+Code:  21
+Text:  kzok
+
+Score: 104
+Key:   fm
+Code:  21
+Text:  kvog
+
+Score: 104
+Key:   fp
+Code:  21
+Text:  ksod
+
+Score: 104
+Key:   fs
+Code:  21
+Text:  kpoa
+
+Score: 104
+Key:   ft
+Code:  21
+Text:  kooz
+
+Score: 104
+Key:   fv
+Code:  21
+Text:  kmox
+
+Score: 104
+Key:   gb
+Code:  21
+Text:  jgnr
+
+Score: 104
+Key:   gn
+Code:  21
+Text:  junf
+
+Score: 104
+Key:   gs
+Code:  21
+Text:  jpna
+
+Score: 104
+Key:   gz
+Code:  21
+Text:  jint
+
+Score: 104
+Key:   hb
+Code:  21
+Text:  igmr
+
+Score: 104
+Key:   hd
+Code:  21
+Text:  iemp
+
+Score: 104
+Key:   hf
+Code:  21
+Text:  icmn
+
+Score: 104
+Key:   hh
+Code:  21
+Text:  iaml
+
+Score: 104
+Key:   hk
+Code:  21
+Text:  ixmi
+
+Score: 104
+Key:   hm
+Code:  21
+Text:  ivmg
+
+Score: 104
+Key:   hv
+Code:  21
+Text:  immx
+
+Score: 104
+Key:   hx
+Code:  21
+Text:  ikmv
+
+Score: 104
+Key:   id
+Code:  21
+Text:  help
+
+Score: 104
+Key:   ii
+Code:  21
+Text:  hzlk
+
+Score: 104
+Key:   iv
+Code:  21
+Text:  hmlx
+
+Score: 104
+Key:   iz
+Code:  21
+Text:  hilt
+
+Score: 104
+Key:   jg
+Code:  21
+Text:  gbkm
+
+Score: 104
+Key:   jo
+Code:  21
+Text:  gtke
+
+Score: 104
+Key:   jz
+Code:  21
+Text:  gikt
+
+Score: 104
+Key:   ka
+Code:  21
+Text:  fhjs
+
+Score: 104
+Key:   la
+Code:  21
+Text:  ehis
+
+Score: 104
+Key:   lb
+Code:  21
+Text:  egir
+
+Score: 104
+Key:   ld
+Code:  21
+Text:  eeip
+
+Score: 104
+Key:   lf
+Code:  21
+Text:  ecin
+
+Score: 104
+Key:   ln
+Code:  21
+Text:  euif
+
+Score: 104
+Key:   lx
+Code:  21
+Text:  ekiv
+
+Score: 104
+Key:   mc
+Code:  21
+Text:  dfhq
+
+Score: 104
+Key:   md
+Code:  21
+Text:  dehp
+
+Score: 104
+Key:   mf
+Code:  21
+Text:  dchn
+
+Score: 104
+Key:   mh
+Code:  21
+Text:  dahl
+
+Score: 104
+Key:   ml
+Code:  21
+Text:  dwhh
+
+Score: 104
+Key:   mo
+Code:  21
+Text:  dthe
+
+Score: 104
+Key:   ms
+Code:  21
+Text:  dpha
+
+Score: 104
+Key:   mt
+Code:  21
+Text:  dohz
+
+Score: 104
+Key:   my
+Code:  21
+Text:  djhu
+
+Score: 104
+Key:   ne
+Code:  21
+Text:  cdgo
+
+Score: 104
+Key:   nh
+Code:  21
+Text:  cagl
+
+Score: 104
+Key:   nm
+Code:  21
+Text:  cvgg
+
+Score: 104
+Key:   nt
+Code:  21
+Text:  cogz
+
+Score: 104
+Key:   nv
+Code:  21
+Text:  cmgx
+
+Score: 104
+Key:   nz
+Code:  21
+Text:  cigt
+
+Score: 104
+Key:   os
+Code:  21
+Text:  bpfa
+
+Score: 104
+Key:   pb
+Code:  21
+Text:  ager
+
+Score: 104
+Key:   pg
+Code:  21
+Text:  abem
+
+Score: 104
+Key:   pv
+Code:  21
+Text:  amex
+
+Score: 104
+Key:   py
+Code:  21
+Text:  ajeu
+
+Score: 104
+Key:   re
+Code:  21
+Text:  ydco
+
+Score: 104
+Key:   rl
+Code:  21
+Text:  ywch
+
+Score: 104
+Key:   rp
+Code:  21
+Text:  yscd
+
+Score: 104
+Key:   rs
+Code:  21
+Text:  ypca
+
+Score: 104
+Key:   sm
+Code:  21
+Text:  xvbg
+
+Score: 104
+Key:   sp
+Code:  21
+Text:  xsbd
+
+Score: 104
+Key:   ta
+Code:  21
+Text:  whas
+
+Score: 104
+Key:   tp
+Code:  21
+Text:  wsad
+
+Score: 104
+Key:   tr
+Code:  21
+Text:  wqab
+
+Score: 104
+Key:   ts
+Code:  21
+Text:  wpaa
+
+Score: 104
+Key:   ty
+Code:  21
+Text:  wjau
+
+Score: 104
+Key:   ul
+Code:  21
+Text:  vwzh
+
+Score: 104
+Key:   up
+Code:  21
+Text:  vszd
+
+Score: 104
+Key:   vv
+Code:  21
+Text:  umyx
+
+Score: 104
+Key:   wa
+Code:  21
+Text:  thxs
+
+Score: 104
+Key:   wx
+Code:  21
+Text:  tkxv
+
+Score: 104
+Key:   xg
+Code:  21
+Text:  sbwm
+
+Score: 104
+Key:   xl
+Code:  21
+Text:  swwh
+
+Score: 104
+Key:   xo
+Code:  21
+Text:  stwe
+
+Score: 104
+Key:   xp
+Code:  21
+Text:  sswd
+
+Score: 104
+Key:   xt
+Code:  21
+Text:  sowz
+
+Score: 104
+Key:   xv
+Code:  21
+Text:  smwx
+
+Score: 104
+Key:   za
+Code:  21
+Text:  qhus
+
+Score: 104
+Key:   zh
+Code:  21
+Text:  qaul
+
+Score: 104
+Key:   zi
+Code:  21
+Text:  qzuk
+
