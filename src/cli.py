@@ -1,5 +1,7 @@
+
 import sys
 import random
+import secrets
 from pathlib import Path
 from vigenere_cipher import VigenereCipher, CHARSET
 import string
@@ -37,10 +39,8 @@ def validate_code(code: str) -> bool:
 
 def permute_text(text: str, code: str) -> str:
     """
-    Permutation (Blocktransposition). WICHTIG: jetzt werden auch Leerzeichen,
-    Satzzeichen und Ziffern permutiert (keine Entfernung von spaces).
+    Permutation (Blocktransposition). Leerzeichen und Satzzeichen werden mitpermutiert.
     """
-    
     code_indices = [int(c) - 1 for c in code]
     block_size = max(code_indices) + 1
 
@@ -103,18 +103,24 @@ def inverse_permute_text(text: str, code: str) -> str:
     return ''.join(result)
 
 
-def _derive_seed(vigenere_key: str, code: str) -> int:
-    data = (vigenere_key + "|" + code).encode("utf-8")
+def _derive_seed(vigenere_key: str, code: str, nonce: str | None = None) -> int:
+    """
+    Ableitung des Seeds für RNG basierend auf Vigenere-Key, transpositions-code und optional Nonce.
+    """
+    if nonce:
+        data = (vigenere_key + "|" + code + "|" + nonce).encode("utf-8")
+    else:
+        data = (vigenere_key + "|" + code).encode("utf-8")
     digest = hashlib.sha256(data).hexdigest()
     return int(digest[:16], 16)
 
 
-def apply_dynamic_chaff(ciphertext: str, vigenere_key: str, code: str) -> str:
+def apply_dynamic_chaff(ciphertext: str, vigenere_key: str, code: str, nonce: str | None = None) -> str:
     """
     Fake-Zeichen (Chaff) aus dem kompletten CHARSET einfügen.
-    Die Position/Anzahl wird pseudo-deterministisch aus vigenere_key+code abgeleitet.
+    Die Position/Anzahl wird pseudo-deterministisch aus vigenere_key+code(+nonce) abgeleitet.
     """
-    seed = _derive_seed(vigenere_key, code)
+    seed = _derive_seed(vigenere_key, code, nonce)
     rng = random.Random(seed)
     result = []
     for char in ciphertext:
@@ -125,8 +131,8 @@ def apply_dynamic_chaff(ciphertext: str, vigenere_key: str, code: str) -> str:
     return ''.join(result)
 
 
-def remove_dynamic_chaff(fake_text: str, vigenere_key: str, code: str) -> str:
-    seed = _derive_seed(vigenere_key, code)
+def remove_dynamic_chaff(fake_text: str, vigenere_key: str, code: str, nonce: str | None = None) -> str:
+    seed = _derive_seed(vigenere_key, code, nonce)
     rng = random.Random(seed)
     result = []
     i = 0
@@ -135,10 +141,9 @@ def remove_dynamic_chaff(fake_text: str, vigenere_key: str, code: str) -> str:
         fake_count = rng.randint(0, 3)
         for _ in range(fake_count):
             
-            rng.choice(ALPHABET)
-            i += 1
             if i >= n:
                 break
+            i += 1
         if i >= n:
             break
         result.append(fake_text[i])
@@ -170,25 +175,62 @@ def get_code() -> str:
     return code
 
 
+def _make_nonce() -> str:
+    
+    return secrets.token_hex(8)
+
+
+def _encode_with_nonce_marker(nonce: str, payload: str) -> str:
+    return f"[NONCE:{nonce}]{payload}"
+
+
+def _extract_nonce_from_prefixed(ciphertext: str) -> tuple[str | None, str]:
+    """
+    Wenn der Ciphertext mit [NONCE:...] beginnt, extrahiere Nonce und Rest.
+    Sonst (None, original).
+    """
+    if ciphertext.startswith("[NONCE:"):
+        end = ciphertext.find("]")
+        if end != -1:
+            nonce = ciphertext[len("[NONCE:"):end]
+            rest = ciphertext[end+1:]
+            return nonce, rest
+    return None, ciphertext
+
+
 def encrypt_mode():
     print("\n--- VERSCHLÜSSELUNGSMODUS ---")
     key = get_vigenere_key()
     mix_key = get_mix_key()
-    cipher = VigenereCipher(key, mix_key)
+    code = get_code()
+
+    
     plaintext = input("Geben Sie den zu verschlüsselnden Text ein: ")
     if plaintext is None or plaintext == "":
         print("Fehler: Text darf nicht leer sein!")
         return
-    code = get_code()
+
+    
+    nonce = _make_nonce()
+    mix_key_effective = f"{mix_key}|{nonce}"
+
+    cipher = VigenereCipher(key, mix_key_effective)
+
+    
     plaintext_perm = permute_text(plaintext, code)
     ciphertext = cipher.encrypt_lowercase(plaintext_perm)
-    ciphertext_fake = apply_dynamic_chaff(ciphertext, key, code)
+    ciphertext_fake = apply_dynamic_chaff(ciphertext, key, code, nonce)
+
+    
+    final = _encode_with_nonce_marker(nonce, ciphertext_fake)
+
     print("\n" + "-" * 40)
     print(f"Klartext:       {plaintext}")
     print(f"Vigenère-Key:   {key}")
-    print(f"Misch-Key:      {mix_key}")
+    print(f"Misch-Key:      {mix_key}  (effective: {mix_key_effective})")
     print(f"Code:           {code}")
-    print(f"Geheimtext:     {ciphertext_fake}")
+    print(f"Nonce:          {nonce}")
+    print(f"Geheimtext:     {final}")
     print("-" * 40)
 
 
@@ -196,20 +238,32 @@ def decrypt_mode():
     print("\n--- ENTSCHLÜSSELUNGSMODUS ---")
     key = get_vigenere_key()
     mix_key = get_mix_key()
-    cipher = VigenereCipher(key, mix_key)
     ciphertext = input("Geben Sie den zu entschlüsselnden Text ein: ")
     if ciphertext is None or ciphertext == "":
         print("Fehler: Text darf nicht leer sein!")
         return
     code = get_code()
-    cleaned = remove_dynamic_chaff(ciphertext, key, code)
+
+    
+    nonce, rest = _extract_nonce_from_prefixed(ciphertext)
+    if nonce:
+        ciphertext_body = rest
+        mix_key_effective = f"{mix_key}|{nonce}"
+    else:
+        ciphertext_body = ciphertext
+        mix_key_effective = f"{mix_key}"  
+
+    cipher = VigenereCipher(key, mix_key_effective)
+    cleaned = remove_dynamic_chaff(ciphertext_body, key, code, nonce)
     decrypted = cipher.decrypt_lowercase(cleaned)
     plaintext = inverse_permute_text(decrypted, code)
+
     print("\n" + "-" * 40)
     print(f"Geheimtext:     {ciphertext}")
     print(f"Vigenère-Key:   {key}")
-    print(f"Misch-Key:      {mix_key}")
+    print(f"Misch-Key:      {mix_key}  (effective: {mix_key_effective})")
     print(f"Code:           {code}")
+    print(f"Nonce:          {nonce}")
     print(f"Klartext:       {plaintext}")
     print("-" * 40)
 
@@ -218,7 +272,7 @@ def txt_mode():
     print("\n--- TXT-MODUS ---")
     key = get_vigenere_key()
     mix_key = get_mix_key()
-    cipher = VigenereCipher(key, mix_key)
+    cipher = None
     filename = input("Geben Sie die Eingabedatei an: ").strip()
     input_path = DATA_DIR / filename
     output_path = DATA_DIR / f"{input_path.stem}_output.txt"
@@ -228,17 +282,30 @@ def txt_mode():
         lines = f.readlines()
     with output_path.open("w", encoding="utf-8") as f:
         for line in lines:
-            
             text = line.rstrip("\n")
             if text == "":
                 f.write("\n")
                 continue
             if mode == "1":
+                
+                nonce = _make_nonce()
+                mix_key_effective = f"{mix_key}|{nonce}"
+                cipher = VigenereCipher(key, mix_key_effective)
                 text_perm = permute_text(text, code)
                 encrypted = cipher.encrypt_lowercase(text_perm)
-                result = apply_dynamic_chaff(encrypted, key, code)
+                result_body = apply_dynamic_chaff(encrypted, key, code, nonce)
+                result = _encode_with_nonce_marker(nonce, result_body)
             else:
-                cleaned = remove_dynamic_chaff(text, key, code)
+                
+                nonce, rest = _extract_nonce_from_prefixed(text)
+                if nonce:
+                    ciphertext_body = rest
+                    mix_key_effective = f"{mix_key}|{nonce}"
+                else:
+                    ciphertext_body = text
+                    mix_key_effective = f"{mix_key}"
+                cipher = VigenereCipher(key, mix_key_effective)
+                cleaned = remove_dynamic_chaff(ciphertext_body, key, code, nonce)
                 decrypted = cipher.decrypt_lowercase(cleaned)
                 result = inverse_permute_text(decrypted, code)
             f.write(result + "\n")
@@ -247,12 +314,15 @@ def txt_mode():
 
 def show_info():
     print("""
---- INFORMATIONEN ZUR VIGENERE-CHIFFRE MIT FAKE-ZEICHEN UND MISCH-ALPHABET ---
+--- INFORMATIONEN ZUR VIGENERE-CHIFFRE MIT FAKE-ZEICHEN, MISCH-ALPHABET & NONCE ---
 
-- Komplettes Charset verwendet: Kleinbuchstaben, Großbuchstaben (separat), Zahlen, Satzzeichen, Leerzeichen.
-- Zweiter Key erzeugt deterministisch gemischtes Alphabet (mix_key).
-- Zusätzliche Fake-Zeichen erhöhen Sicherheit.
-- Blocktransposition permutiert jetzt auch Leerzeichen und Satzzeichen.
+- Pro Verschlüsselung wird ein Nonce erzeugt (z. B. 16 hex-Zeichen) und als Präfix gespeichert: [NONCE:<hex>]...
+- Der angegebene Misch-Key wird intern mit dem Nonce kombiniert, so entsteht pro-Nonce
+  ein anderes gemischtes Alphabet.
+- Chaff-Einfügung (Fake-Zeichen) wird ebenfalls durch einen Seed bestimmt, der den Nonce benutzt.
+- Vorteil: gleiche Eingaben + gleiche Schlüssel produzieren unterschiedliche Ciphertexte.
+- Wichtig: Nonce muss gespeichert/übertragen werden (ist nicht geheim), sonst ist
+  Entschlüsselung nicht möglich.
 """)
 
 
