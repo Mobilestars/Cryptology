@@ -254,16 +254,36 @@ def txt_mode():
 
 def show_info():
     print("""
---- INFORMATIONEN ZUR VIGENERE-CHIFFRE MIT NONCE, FAKE-ZEICHEN UND MISCH-ALPHABET ---
+--- INFORMATIONEN ZUR VIGENERE-CHIFFRE MIT AVALANCHE EFFECT, NONCE & MISCH-ALPHABET ---
 
-- Komplettes Charset verwendet: Kleinbuchstaben, Großbuchstaben (separat), Zahlen, Satzzeichen, Leerzeichen.
-- Zweiter Key erzeugt deterministisch gemischtes Alphabet (mix_key).
-- Nonce: 16 zufällige Zeichen am Anfang des Ciphertexts (optional).
-  * Garantiert unterschiedliche Ciphertexte für denselben Plaintext.
-  * Format: [NONCE]|[CIPHERTEXT]
-  * Wird automatisch bei Entschlüsselung erkannt.
-- Zusätzliche Fake-Zeichen erhöhen Sicherheit.
-- Blocktransposition permutiert jede Block mit konfigurierbarem Code.
+AVALANCHE EFFECT (Moderne Sicherheit):
+- Eine 1-Zeichen Änderung im Plaintext oder Key führt zu großen Änderungen im Ciphertext
+- Dies ist eine kritische Eigenschaft moderner Cipher
+- Verhindert Pattern-Analyse und Frequenz-Attacken
+- Funktioniert durch Feedback-basierte Key-Evolution nach jedem Zeichen
+
+NONCE (Eindeutigkeit):
+- 16 zufällige Zeichen am Anfang des Ciphertexts (optional)
+- Garantiert unterschiedliche Ciphertexte für denselben Plaintext
+- Format: [NONCE]|[CIPHERTEXT]
+- Wird automatisch bei Entschlüsselung erkannt
+- Verhindert Replay-Attacken und Pattern-Erkennung
+
+MISCH-ALPHABET:
+- Deterministisches Shuffling des Charsets basierend auf mix_key
+- Erweitert das Clipboard auf Kleinbuchstaben, Großbuchstaben, Ziffern und Sonderzeichen
+- Erhöht die Sicherheit durch nicht-standardisierte Reihenfolge
+
+BLOCKTRANSPOSITION:
+- Zusätzliche Permutation mit konfigurierbarem Code
+- Permutiert Zeichen, Spaces und Sonderzeichen
+- Bietet zusätzliche Sicherheitsebene
+
+GESAMTSICHERHEIT:
+1. Blockweise Transposition (Positional Scrambling)
+2. Vigenère-Verschlüsselung mit Key-Evolution (Avalanche Effect)
+3. Nonce-Hinzufügung (für Eindeutigkeit)
+4. Optional: Fake-Charaktere (Chaff)
 """)
 
 
