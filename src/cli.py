@@ -1,4 +1,3 @@
-# main.py
 import sys
 import random
 from pathlib import Path
@@ -10,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(exist_ok=True)
 
-ALPHABET = CHARSET  # einheitlich mit vigenere_cipher
+ALPHABET = CHARSET  
 
 def print_banner():
     print("\n" + "=" * 60)
@@ -41,7 +40,7 @@ def permute_text(text: str, code: str) -> str:
     Permutation (Blocktransposition). WICHTIG: jetzt werden auch Leerzeichen,
     Satzzeichen und Ziffern permutiert (keine Entfernung von spaces).
     """
-    # text = text.replace(" ", "")  # entfällt - spaces gehören jetzt zum Text/Alphabet
+    
     code_indices = [int(c) - 1 for c in code]
     block_size = max(code_indices) + 1
 
@@ -119,7 +118,7 @@ def apply_dynamic_chaff(ciphertext: str, vigenere_key: str, code: str) -> str:
     rng = random.Random(seed)
     result = []
     for char in ciphertext:
-        fake_count = rng.randint(0, 3)  # 0..3 Fake-Zeichen pro echtem Zeichen
+        fake_count = rng.randint(0, 3)  
         for _ in range(fake_count):
             result.append(rng.choice(ALPHABET))
         result.append(char)
@@ -135,7 +134,7 @@ def remove_dynamic_chaff(fake_text: str, vigenere_key: str, code: str) -> str:
     while i < n:
         fake_count = rng.randint(0, 3)
         for _ in range(fake_count):
-            # consume the fake chars
+            
             rng.choice(ALPHABET)
             i += 1
             if i >= n:
@@ -229,7 +228,7 @@ def txt_mode():
         lines = f.readlines()
     with output_path.open("w", encoding="utf-8") as f:
         for line in lines:
-            # nur trailing newline entfernen, damit leading/trailing spaces erhalten bleiben
+            
             text = line.rstrip("\n")
             if text == "":
                 f.write("\n")

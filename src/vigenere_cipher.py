@@ -1,10 +1,10 @@
-# vigenere_cipher.py
+
 import string
 import hashlib
 import random
 from typing import Optional
 
-# Charset: lowercase + uppercase (separat) + digits + punctuation + space
+
 CHARSET = string.ascii_lowercase + string.ascii_uppercase + string.digits + string.punctuation + " "
 
 class VigenereCipher:
@@ -15,12 +15,12 @@ class VigenereCipher:
         """
         if not key:
             raise ValueError("Vigenère-Key darf nicht leer sein.")
-        # Verwende den Key unverändert (case-sensitive)
+        
         self.key = key
         self.alphabet = self._generate_mixed_alphabet(mix_key)
         self.square = self._build_square()
 
-        # Key bereinigen: entferne Zeichen aus Key, die nicht im alphabet sind
+        
         self._clean_key = ''.join([c for c in self.key if c in self.alphabet])
         if not self._clean_key:
             raise ValueError("Vigenère-Key enthält keine gültigen Zeichen aus dem Charset.")
@@ -60,7 +60,7 @@ class VigenereCipher:
         direkt durchreichen. Wir wählen: durchreichen (keine Veränderung),
         damit der Nutzer keine Überraschungen hat. (=> diese Methode nur zur Prüfung)
         """
-        # Wir geben den Text unverändert zurück — Verschlüsselung prüft Zeichen einzeln.
+        
         return text
 
     def encrypt_lowercase(self, plaintext: str) -> str:
@@ -75,7 +75,7 @@ class VigenereCipher:
 
         for char in plaintext:
             if char not in self.alphabet:
-                # Zeichen, das nicht im alphabet ist, wird unverändert durchgereicht
+                
                 ciphertext.append(char)
             else:
                 p_idx = self.alphabet.index(char)
@@ -83,7 +83,7 @@ class VigenereCipher:
                 k_idx = self.alphabet.index(k_char)
                 c = self.square[k_idx][p_idx]
                 ciphertext.append(c)
-                key_pos += 1  # nur inkrementieren, wenn wir ein "echtes" Zeichen ver- bzw. entschlüsseln
+                key_pos += 1  
         return ''.join(ciphertext)
 
     def decrypt_lowercase(self, ciphertext: str) -> str:
