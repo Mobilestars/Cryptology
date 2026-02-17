@@ -1,153 +1,109 @@
-"""
-Vigenere Cipher Implementation
-Eine klassische polyalphabetische Substitutionsverschlüsselung
-"""
+# vigenere_cipher.py
+import string
+import hashlib
+import random
+from typing import Optional
+
+# Charset: lowercase + uppercase (separat) + digits + punctuation + space
+CHARSET = string.ascii_lowercase + string.ascii_uppercase + string.digits + string.punctuation + " "
 
 class VigenereCipher:
-    """
-    Implementierung der Vigenere-Verschlüsselung.
-    
-    Die Vigenere-Verschlüsselung ist ein polyalphabetisches Verschlüsselungsverfahren,
-    das einen Schlüsseltext verwendet, um nacheinander Caesar-Verschiebungen durchzuführen.
-    """
-    
-    def __init__(self, key: str):
+    def __init__(self, key: str, mix_key: Optional[str | int] = None):
         """
-        Initialisiert die Vigenere-Chiffre mit einem Schlüssel.
-        
-        Args:
-            key: Der Verschlüsselungsschlüssel (darf nur Buchstaben enthalten)
-            
-        Raises:
-            ValueError: Wenn der Schlüssel leer oder ungültig ist
+        key: Vigenère-Schlüssel (case-sensitive)
+        mix_key: zweiter, beliebiger Key zur deterministischen Mischung des Charsets
         """
-        if not key or not key.isalpha():
-            raise ValueError("Der Schlüssel muss aus Buchstaben bestehen und darf nicht leer sein")
-        
-        self.key = key.upper()
-    
-    def _expand_key(self, text: str) -> str:
+        if not key:
+            raise ValueError("Vigenère-Key darf nicht leer sein.")
+        # Verwende den Key unverändert (case-sensitive)
+        self.key = key
+        self.alphabet = self._generate_mixed_alphabet(mix_key)
+        self.square = self._build_square()
+
+        # Key bereinigen: entferne Zeichen aus Key, die nicht im alphabet sind
+        self._clean_key = ''.join([c for c in self.key if c in self.alphabet])
+        if not self._clean_key:
+            raise ValueError("Vigenère-Key enthält keine gültigen Zeichen aus dem Charset.")
+
+    def _generate_mixed_alphabet(self, mix_key):
         """
-        Wiederholt den Schlüssel so oft, bis er die Länge des Textes hat.
-        Ignoriert dabei Leerzeichen und Sonderzeichen.
-        
-        Args:
-            text: Der Text, für den der Schlüssel erweitert werden soll
-            
-        Returns:
-            Der erweiterte Schlüssel
+        Erzeugt eine deterministische, gemischte Alphabet-Reihenfolge
+        basierend auf mix_key. Wenn mix_key None ist, wird das Standard-Charset zurückgegeben.
         """
-        key_index = 0
-        expanded_key = []
-        
-        for char in text:
-            if char.isalpha():
-                expanded_key.append(self.key[key_index % len(self.key)])
-                key_index += 1
-            else:
-                # Leerzeichen und Sonderzeichen werden nicht verschlüsselt
-                expanded_key.append(char)
-        
-        return ''.join(expanded_key)
-    
-    def encrypt(self, plaintext: str) -> str:
+        letters = list(CHARSET)
+        if mix_key is None:
+            return ''.join(letters)
+
+        seed_data = str(mix_key).encode("utf-8")
+        digest = hashlib.sha256(seed_data).hexdigest()
+        seed = int(digest[:16], 16)
+        rng = random.Random(seed)
+        rng.shuffle(letters)
+        return ''.join(letters)
+
+    def _build_square(self):
         """
-        Verschlüsselt einen Text mit der Vigenere-Chiffre.
-        
-        Args:
-            plaintext: Der zu verschlüsselnde Text
-            
-        Returns:
-            Der verschlüsselte Text
+        Erstellt das Vigenère-Quadrat basierend auf dem gemischten Alphabet.
+        Quadrate-Row i = alphabet rotated by i.
         """
-        plaintext = plaintext.upper()
-        expanded_key = self._expand_key(plaintext)
-        ciphertext = []
-        
-        for plain_char, key_char in zip(plaintext, expanded_key):
-            if plain_char.isalpha():
-                # Shift-Wert aus dem Schlüssel (A=0, B=1, ..., Z=25)
-                shift = ord(key_char) - ord('A')
-                
-                # Verschlüsselter Buchstabe
-                encrypted_char = chr((ord(plain_char) - ord('A') + shift) % 26 + ord('A'))
-                ciphertext.append(encrypted_char)
-            else:
-                # Nicht-Buchstaben bleiben unverändert
-                ciphertext.append(plain_char)
-        
-        return ''.join(ciphertext)
-    
-    def decrypt(self, ciphertext: str) -> str:
+        square = []
+        n = len(self.alphabet)
+        for i in range(n):
+            row = self.alphabet[i:] + self.alphabet[:i]
+            square.append(row)
+        return square
+
+    def _format_text(self, text: str) -> str:
         """
-        Entschlüsselt einen mit Vigenere verschlüsselten Text.
-        
-        Args:
-            ciphertext: Der zu entschlüsselnde Text
-            
-        Returns:
-            Der entschlüsselte (ursprüngliche) Text
+        Hier: wir lassen alle Zeichen durch, aber verwerfen (nicht verschlüsseln)
+        solche, die nicht im Charset sind — alternativ könnten wir sie auch
+        direkt durchreichen. Wir wählen: durchreichen (keine Veränderung),
+        damit der Nutzer keine Überraschungen hat. (=> diese Methode nur zur Prüfung)
         """
-        ciphertext = ciphertext.upper()
-        expanded_key = self._expand_key(ciphertext)
-        plaintext = []
-        
-        for cipher_char, key_char in zip(ciphertext, expanded_key):
-            if cipher_char.isalpha():
-                # Shift-Wert aus dem Schlüssel
-                shift = ord(key_char) - ord('A')
-                
-                # Entschlüsselter Buchstabe (inverse Operation)
-                decrypted_char = chr((ord(cipher_char) - ord('A') - shift) % 26 + ord('A'))
-                plaintext.append(decrypted_char)
-            else:
-                # Nicht-Buchstaben bleiben unverändert
-                plaintext.append(cipher_char)
-        
-        return ''.join(plaintext)
-    
+        # Wir geben den Text unverändert zurück — Verschlüsselung prüft Zeichen einzeln.
+        return text
+
     def encrypt_lowercase(self, plaintext: str) -> str:
         """
-        Verschlüsselt einen Text und behält die ursprüngliche Groß-/Kleinschreibung bei.
-        
-        Args:
-            plaintext: Der zu verschlüsselnde Text
-            
-        Returns:
-            Der verschlüsselte Text mit beibehaltener Groß-/Kleinschreibung
+        Verschlüsselt plaintext (case-sensitive). Zeichensätze, die nicht
+        im alphabet sind, werden unverändert durchgereicht.
         """
-        plaintext_upper = plaintext.upper()
-        encrypted = self.encrypt(plaintext_upper)
-        
-        # Wiederherstellen der ursprünglichen Groß-/Kleinschreibung
-        result = []
-        for original, encrypted_char in zip(plaintext, encrypted):
-            if original.islower() and encrypted_char.isalpha():
-                result.append(encrypted_char.lower())
+        plaintext = self._format_text(plaintext)
+        ciphertext = []
+        key_len = len(self._clean_key)
+        key_pos = 0
+
+        for char in plaintext:
+            if char not in self.alphabet:
+                # Zeichen, das nicht im alphabet ist, wird unverändert durchgereicht
+                ciphertext.append(char)
             else:
-                result.append(encrypted_char)
-        
-        return ''.join(result)
-    
+                p_idx = self.alphabet.index(char)
+                k_char = self._clean_key[key_pos % key_len]
+                k_idx = self.alphabet.index(k_char)
+                c = self.square[k_idx][p_idx]
+                ciphertext.append(c)
+                key_pos += 1  # nur inkrementieren, wenn wir ein "echtes" Zeichen ver- bzw. entschlüsseln
+        return ''.join(ciphertext)
+
     def decrypt_lowercase(self, ciphertext: str) -> str:
         """
-        Entschlüsselt einen Text und behält die ursprüngliche Groß-/Kleinschreibung bei.
-        
-        Args:
-            ciphertext: Der zu entschlüsselnde Text
-            
-        Returns:
-            Der entschlüsselte Text mit beibehaltener Groß-/Kleinschreibung
+        Entschlüsselt ciphertext (case-sensitive). Zeichen, die nicht im alphabet sind,
+        werden unverändert durchgereicht.
         """
-        ciphertext_upper = ciphertext.upper()
-        decrypted = self.decrypt(ciphertext_upper)
-        
-        # Wiederherstellen der ursprünglichen Groß-/Kleinschreibung
-        result = []
-        for original, decrypted_char in zip(ciphertext, decrypted):
-            if original.islower() and decrypted_char.isalpha():
-                result.append(decrypted_char.lower())
+        ciphertext = self._format_text(ciphertext)
+        plaintext = []
+        key_len = len(self._clean_key)
+        key_pos = 0
+
+        for char in ciphertext:
+            if char not in self.alphabet:
+                plaintext.append(char)
             else:
-                result.append(decrypted_char)
-        
-        return ''.join(result)
+                k_char = self._clean_key[key_pos % key_len]
+                k_idx = self.alphabet.index(k_char)
+                row = self.square[k_idx]
+                p_idx = row.index(char)
+                plaintext.append(self.alphabet[p_idx])
+                key_pos += 1
+        return ''.join(plaintext)

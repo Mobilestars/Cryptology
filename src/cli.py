@@ -1,23 +1,20 @@
+# main.py
 import sys
 import random
 from pathlib import Path
-from vigenere_cipher import VigenereCipher
+from vigenere_cipher import VigenereCipher, CHARSET
 import string
+import hashlib
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(exist_ok=True)
 
-ALPHABET = string.ascii_lowercase
-
-
-# -------------------------------------------------
-# UI
-# -------------------------------------------------
+ALPHABET = CHARSET  # einheitlich mit vigenere_cipher
 
 def print_banner():
     print("\n" + "=" * 60)
-    print("  JikCrypt - VIGENERE; Transposition; Chaff")
+    print("  JikCrypt - VIGENERE; Transposition; Chaff (mit Mischalphabet & kompletter Zeichensatz)")
     print("=" * 60 + "\n")
 
 
@@ -31,10 +28,6 @@ def print_menu():
     print("-" * 40)
 
 
-# -------------------------------------------------
-# Code-Validierung
-# -------------------------------------------------
-
 def validate_code(code: str) -> bool:
     if not code.isdigit():
         return False
@@ -43,12 +36,12 @@ def validate_code(code: str) -> bool:
     return all(i in digits for i in range(1, n + 1))
 
 
-# -------------------------------------------------
-# Transposition (angepasst für dein System)
-# -------------------------------------------------
-
 def permute_text(text: str, code: str) -> str:
-    text = text.replace(" ", "")
+    """
+    Permutation (Blocktransposition). WICHTIG: jetzt werden auch Leerzeichen,
+    Satzzeichen und Ziffern permutiert (keine Entfernung von spaces).
+    """
+    # text = text.replace(" ", "")  # entfällt - spaces gehören jetzt zum Text/Alphabet
     code_indices = [int(c) - 1 for c in code]
     block_size = max(code_indices) + 1
 
@@ -62,16 +55,6 @@ def permute_text(text: str, code: str) -> str:
 
 
 def inverse_permute_text(text: str, code: str) -> str:
-    """
-    Inverse der oben definierten permute_text-Funktion.
-    Vorgehen:
-      - Für alle *vollen* Originalblöcke (Länge = block_size) ist die produzierte
-        Länge konstant (equal to number of indices in code_indices that < block_size,
-        typischerweise len(code_indices) wenn alle idx < block_size).
-      - Verarbeite so viele volle Blöcke wie möglich.
-      - Bestimme für den letzten (kürzeren) Block die Original-Länge durch
-        Probieren: suche b in 1..block_size mit produced(b) == verbleibende Zeichen.
-    """
     code_indices = [int(c) - 1 for c in code]
     block_size = max(code_indices) + 1
 
@@ -121,33 +104,63 @@ def inverse_permute_text(text: str, code: str) -> str:
     return ''.join(result)
 
 
-# -------------------------------------------------
-# Fake-Bit-System
-# -------------------------------------------------
+def _derive_seed(vigenere_key: str, code: str) -> int:
+    data = (vigenere_key + "|" + code).encode("utf-8")
+    digest = hashlib.sha256(data).hexdigest()
+    return int(digest[:16], 16)
 
-def apply_fake_bits(ciphertext: str) -> str:
+
+def apply_dynamic_chaff(ciphertext: str, vigenere_key: str, code: str) -> str:
+    """
+    Fake-Zeichen (Chaff) aus dem kompletten CHARSET einfügen.
+    Die Position/Anzahl wird pseudo-deterministisch aus vigenere_key+code abgeleitet.
+    """
+    seed = _derive_seed(vigenere_key, code)
+    rng = random.Random(seed)
     result = []
     for char in ciphertext:
-        fake_char = random.choice(ALPHABET)
-        result.append(fake_char)
+        fake_count = rng.randint(0, 3)  # 0..3 Fake-Zeichen pro echtem Zeichen
+        for _ in range(fake_count):
+            result.append(rng.choice(ALPHABET))
         result.append(char)
     return ''.join(result)
 
 
-def remove_fake_bits(fake_text: str) -> str:
-    return fake_text[1::2]
+def remove_dynamic_chaff(fake_text: str, vigenere_key: str, code: str) -> str:
+    seed = _derive_seed(vigenere_key, code)
+    rng = random.Random(seed)
+    result = []
+    i = 0
+    n = len(fake_text)
+    while i < n:
+        fake_count = rng.randint(0, 3)
+        for _ in range(fake_count):
+            # consume the fake chars
+            rng.choice(ALPHABET)
+            i += 1
+            if i >= n:
+                break
+        if i >= n:
+            break
+        result.append(fake_text[i])
+        i += 1
+    return ''.join(result)
 
-
-# -------------------------------------------------
-# Eingabe-Funktionen
-# -------------------------------------------------
 
 def get_vigenere_key() -> str:
-    key = input("Geben Sie den Vigenère-Schlüssel ein: ").strip().lower()
+    key = input("Geben Sie den Vigenère-Schlüssel ein (case-sensitive): ").strip()
     if not key:
         print("Fehler: Schlüssel darf nicht leer sein!")
         return get_vigenere_key()
     return key
+
+
+def get_mix_key() -> str:
+    mix_key = input("Geben Sie den Misch-Schlüssel (zweiter Key) ein: ").strip()
+    if not mix_key:
+        print("Fehler: Misch-Schlüssel darf nicht leer sein!")
+        return get_mix_key()
+    return mix_key
 
 
 def get_code() -> str:
@@ -158,133 +171,97 @@ def get_code() -> str:
     return code
 
 
-# -------------------------------------------------
-# Verschlüsselung
-# -------------------------------------------------
-
 def encrypt_mode():
     print("\n--- VERSCHLÜSSELUNGSMODUS ---")
-
     key = get_vigenere_key()
-    cipher = VigenereCipher(key)
-
-    plaintext = input("Geben Sie den zu verschlüsselnden Text ein: ").strip().lower()
-    if not plaintext:
+    mix_key = get_mix_key()
+    cipher = VigenereCipher(key, mix_key)
+    plaintext = input("Geben Sie den zu verschlüsselnden Text ein: ")
+    if plaintext is None or plaintext == "":
         print("Fehler: Text darf nicht leer sein!")
         return
-
     code = get_code()
-
     plaintext_perm = permute_text(plaintext, code)
     ciphertext = cipher.encrypt_lowercase(plaintext_perm)
-    ciphertext_fake = apply_fake_bits(ciphertext)
-
+    ciphertext_fake = apply_dynamic_chaff(ciphertext, key, code)
     print("\n" + "-" * 40)
-    print(f"Klartext:    {plaintext}")
-    print(f"Schlüssel:   {key}")
-    print(f"Code:        {code}")
-    print(f"Geheimtext:  {ciphertext_fake}")
+    print(f"Klartext:       {plaintext}")
+    print(f"Vigenère-Key:   {key}")
+    print(f"Misch-Key:      {mix_key}")
+    print(f"Code:           {code}")
+    print(f"Geheimtext:     {ciphertext_fake}")
     print("-" * 40)
 
-
-# -------------------------------------------------
-# Entschlüsselung
-# -------------------------------------------------
 
 def decrypt_mode():
     print("\n--- ENTSCHLÜSSELUNGSMODUS ---")
-
     key = get_vigenere_key()
-    cipher = VigenereCipher(key)
-
-    ciphertext = input("Geben Sie den zu entschlüsselnden Text ein: ").strip().lower()
-    if not ciphertext:
+    mix_key = get_mix_key()
+    cipher = VigenereCipher(key, mix_key)
+    ciphertext = input("Geben Sie den zu entschlüsselnden Text ein: ")
+    if ciphertext is None or ciphertext == "":
         print("Fehler: Text darf nicht leer sein!")
         return
-
     code = get_code()
-
-    cleaned = remove_fake_bits(ciphertext)
+    cleaned = remove_dynamic_chaff(ciphertext, key, code)
     decrypted = cipher.decrypt_lowercase(cleaned)
     plaintext = inverse_permute_text(decrypted, code)
-
     print("\n" + "-" * 40)
-    print(f"Geheimtext:  {ciphertext}")
-    print(f"Schlüssel:   {key}")
-    print(f"Code:        {code}")
-    print(f"Klartext:    {plaintext}")
+    print(f"Geheimtext:     {ciphertext}")
+    print(f"Vigenère-Key:   {key}")
+    print(f"Misch-Key:      {mix_key}")
+    print(f"Code:           {code}")
+    print(f"Klartext:       {plaintext}")
     print("-" * 40)
 
 
-# -------------------------------------------------
-# TXT-Modus
-# -------------------------------------------------
-
 def txt_mode():
     print("\n--- TXT-MODUS ---")
-
     key = get_vigenere_key()
-    cipher = VigenereCipher(key)
-
+    mix_key = get_mix_key()
+    cipher = VigenereCipher(key, mix_key)
     filename = input("Geben Sie die Eingabedatei an: ").strip()
     input_path = DATA_DIR / filename
     output_path = DATA_DIR / f"{input_path.stem}_output.txt"
-
     code = get_code()
     mode = input("Verschlüsseln (1) oder Entschlüsseln (2)? ").strip()
-
     with input_path.open("r", encoding="utf-8") as f:
         lines = f.readlines()
-
     with output_path.open("w", encoding="utf-8") as f:
         for line in lines:
-            text = line.strip().lower()
-            if not text:
+            # nur trailing newline entfernen, damit leading/trailing spaces erhalten bleiben
+            text = line.rstrip("\n")
+            if text == "":
+                f.write("\n")
                 continue
-
             if mode == "1":
                 text_perm = permute_text(text, code)
                 encrypted = cipher.encrypt_lowercase(text_perm)
-                result = apply_fake_bits(encrypted)
+                result = apply_dynamic_chaff(encrypted, key, code)
             else:
-                cleaned = remove_fake_bits(text)
+                cleaned = remove_dynamic_chaff(text, key, code)
                 decrypted = cipher.decrypt_lowercase(cleaned)
                 result = inverse_permute_text(decrypted, code)
-
             f.write(result + "\n")
-
     print(f"\nErgebnis in '{output_path}' gespeichert!")
 
 
-# -------------------------------------------------
-# Info
-# -------------------------------------------------
-
 def show_info():
     print("""
---- INFORMATIONEN ZUR VIGENERE-CHIFFRE MIT FAKE-ZEICHEN ---
+--- INFORMATIONEN ZUR VIGENERE-CHIFFRE MIT FAKE-ZEICHEN UND MISCH-ALPHABET ---
 
-Die Vigenere-Chiffre ist ein polyalphabetisches Substitutionsverfahren,
-das 1553 von Giambattista della Porta beschrieben wurde.
-
-ERGÄNZUNG FÜR SCHULPROJEKT:
-- Zusätzliche Fake-Zeichen erhöhen Sicherheit
-- Position der echten Zeichen wird durch den Fake-Bit-Algorithmus bestimmt
-- Blocktransposition nutzt die höchste Zahl als Blockgröße
+- Komplettes Charset verwendet: Kleinbuchstaben, Großbuchstaben (separat), Zahlen, Satzzeichen, Leerzeichen.
+- Zweiter Key erzeugt deterministisch gemischtes Alphabet (mix_key).
+- Zusätzliche Fake-Zeichen erhöhen Sicherheit.
+- Blocktransposition permutiert jetzt auch Leerzeichen und Satzzeichen.
 """)
 
 
-# -------------------------------------------------
-# Main
-# -------------------------------------------------
-
 def main():
     print_banner()
-
     while True:
         print_menu()
         choice = input("Eingabe: ").strip()
-
         if choice == "1":
             encrypt_mode()
         elif choice == "2":
