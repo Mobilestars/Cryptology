@@ -4,10 +4,12 @@ from pathlib import Path
 from vigenere_cipher import VigenereCipher, CHARSET
 import string
 import hashlib
+import yaml
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(exist_ok=True)
+CONFIG_FILE = BASE_DIR.parent / "config.yml"
 
 ALPHABET = CHARSET  
 
@@ -23,8 +25,24 @@ def print_menu():
     print("2. Text entschlüsseln")
     print("3. TXT-Datei verarbeiten")
     print("4. Informationen anzeigen")
-    print("5. Programmende")
+    print("5. Edit config")
+    print("0. Programmende")
     print("-" * 40)
+
+
+def load_config() -> dict:
+    """Lädt die Config aus config.yml"""
+    if CONFIG_FILE.exists():
+        with CONFIG_FILE.open("r", encoding="utf-8") as f:
+            return yaml.safe_load(f) or {}
+    return {}
+
+
+def save_config(config: dict):
+    """Speichert die Config in config.yml"""
+    with CONFIG_FILE.open("w", encoding="utf-8") as f:
+        yaml.dump(config, f, default_flow_style=False, allow_unicode=True)
+    print("✓ Config gespeichert!")
 
 
 def validate_code(code: str) -> bool:
@@ -287,6 +305,68 @@ GESAMTSICHERHEIT:
 """)
 
 
+def edit_config_mode():
+    """Edit Config Modus - ermöglicht Änderungen der config.yml"""
+    config = load_config()
+    
+    # Default-Werte definieren
+    defaults = {
+        "nonce_length": 16,
+        "hmac_block_size": 8,
+        "hmac_tag_length": 12
+    }
+    
+    while True:
+        print("\n--- EDIT CONFIG ---")
+        print("\nAktuelle Werte:")
+        print(f"1. nonce_length")
+        print(f"   Default: {defaults['nonce_length']}, Aktuell: {config.get('nonce_length', defaults['nonce_length'])}")
+        print(f"2. hmac_block_size")
+        print(f"   Default: {defaults['hmac_block_size']}, Aktuell: {config.get('hmac_block_size', defaults['hmac_block_size'])}")
+        print(f"3. hmac_tag_length")
+        print(f"   Default: {defaults['hmac_tag_length']}, Aktuell: {config.get('hmac_tag_length', defaults['hmac_tag_length'])}")
+        print("0. Save config")
+        print("-" * 40)
+        
+        choice = input("Wählen Sie einen Wert zum Bearbeiten (0-3): ").strip()
+        
+        if choice == "0":
+            save_config(config)
+            return
+        elif choice == "1":
+            try:
+                new_value = int(input(f"Neuer Wert für nonce_length (Standard: {defaults['nonce_length']}): ").strip())
+                if new_value > 0:
+                    config['nonce_length'] = new_value
+                    print(f"✓ nonce_length auf {new_value} gesetzt")
+                else:
+                    print("✗ Wert muss größer als 0 sein!")
+            except ValueError:
+                print("✗ Ungültige Eingabe! Bitte geben Sie eine Zahl ein.")
+        elif choice == "2":
+            try:
+                new_value = int(input(f"Neuer Wert für hmac_block_size (Standard: {defaults['hmac_block_size']}): ").strip())
+                if new_value > 0:
+                    config['hmac_block_size'] = new_value
+                    print(f"✓ hmac_block_size auf {new_value} gesetzt")
+                else:
+                    print("✗ Wert muss größer als 0 sein!")
+            except ValueError:
+                print("✗ Ungültige Eingabe! Bitte geben Sie eine Zahl ein.")
+        elif choice == "3":
+            try:
+                new_value = int(input(f"Neuer Wert für hmac_tag_length (Standard: {defaults['hmac_tag_length']}): ").strip())
+                if new_value > 0:
+                    config['hmac_tag_length'] = new_value
+                    print(f"✓ hmac_tag_length auf {new_value} gesetzt")
+                else:
+                    print("✗ Wert muss größer als 0 sein!")
+            except ValueError:
+                print("✗ Ungültige Eingabe! Bitte geben Sie eine Zahl ein.")
+        else:
+            print("✗ Ungültige Eingabe! Bitte wählen Sie 0-3.")
+
+
 def main():
     print_banner()
     while True:
@@ -301,10 +381,12 @@ def main():
         elif choice == "4":
             show_info()
         elif choice == "5":
+            edit_config_mode()
+        elif choice == "0":
             print("\nAuf Wiedersehen!\n")
             sys.exit(0)
         else:
-            print("Ungültige Eingabe! Bitte wählen Sie 1-5.")
+            print("Ungültige Eingabe! Bitte wählen Sie 0-5.")
 
 
 if __name__ == "__main__":
